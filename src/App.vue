@@ -1,23 +1,43 @@
 <template>
-<AppHeader/>
+<AppHeader :isLoggedIn="isLoggedIn"  @open-login-modal= 'isLoginOpen = true'/>
   <div class="flex ">
-
-    <!-- <DcHeros/> -->
-    <Calendar/>
+      <router-view></router-view>
   </div>
+  <teleport to='body'>
+  <LoginModal v-if="isLoginOpen" @close-login='isLoginOpen = false'/>
+  </teleport>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader'
-import Calendar  from './components/Calendar'
-// import DcHeros from './components/DcHeros'
+import LoginModal from './components/LoginModal'
+import firebase from './utilities/firabase'
+
 export default {
+  data() {
+        return {
+            isLoginOpen:false,
+            isLoggedIn:false,
+            authUser:{},
+        }
+    },
+  mounted() {
+      firebase.auth().onAuthStateChanged((user)=> {
+        if (user) {
+          console.log(user);
+          this.isLoggedIn = true
+          this.authUser = user
+        } else {
+        console.log('no auth');
+          this.isLoggedIn = false
+          this.authUser = {}
+      }
+    });
+  },
   components:{
     AppHeader,
-    // DcHeros,
-    Calendar,
+    LoginModal,
   },
-  
 }
 </script>
 

@@ -26,7 +26,6 @@
 </template>
 <script>
 export default {
-
     data(){
         return {
             currentDate: new Date().getUTCDate(),
@@ -63,7 +62,7 @@ export default {
         currentDateClass(num){
             const calendarFullDate = new Date(this.currentYear,this.currentMonth,num).toDateString();
             const currentFullDate  = new Date().toDateString();
-            console.log(currentFullDate);
+            // console.log(currentFullDate);
             return calendarFullDate === currentFullDate ? 'text-yellow-600' : '';
         }
     },
