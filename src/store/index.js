@@ -1,18 +1,22 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
+export default createStore({
   state: {
-    count: 0
+    
+      isLoggedIn:false,
+      authUser:{},
+    
   },
   mutations: {
-    increment (state) {
-      state.count++
-    }
+    setLoggedIn(state,payload){
+      state.isLoggedIn = payload;
+    },
+    setauthUser(state,payload){
+      state.authUser =  payload;
+    },
+  },
+  actions: {
+  },
+  modules: {
   }
 })
-
-
-export default store;

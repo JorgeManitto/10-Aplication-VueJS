@@ -5,7 +5,7 @@
             <div class="border rounded-lg">
                 <div class="h-64 p-2 overflow-auto">
                      <div v-for="chat in state.chats" :key="chat.message" class="w-full text-3xl " 
-                     :class="chat.userId === state.userId ? 'text-right' : ''">
+                     :class="chat.userId === userId ? 'text-right' : ''">
                         {{ chat.message }}
                      </div>
                 </div>
@@ -21,30 +21,34 @@
 </template>
 
 <script>
-import {onMounted,reactive} from 'vue'
-import firabase,{chatsRef} from '../utilities/firabase'
+import {computed, onMounted,reactive} from 'vue'
+import {chatsRef} from '../utilities/firabase'
+import useStore from '../store/index'
+console.log(useStore.state);
 export default {
     setup() {
         const state = reactive({
             chats:[],
             message:'',
-            userId: null,
         });
+        const store = useStore;
+        const userId = computed(()=> store.state.authUser.uid);      
         // const chats = ref({})
         onMounted(async () => {
 
             chatsRef.on("child_added", (snapshot)=>{
-                state.userId = firabase.auth().currentUser.uid;
+                // state.userId = firabase.auth().currentUser.uid;
                 state.chats.push({key:snapshot.key, ...snapshot.val()});
                 // state.chats = snapshot.val();
           });
         })
         function addMessage(){
             const newChat = chatsRef.push();
-            newChat.set({ userId:state.userId, message:state.message });
+            newChat.set({ userId:store.state.authUser.uid, message:state.message });
             state.message = '';
         }
-        return {state, addMessage};
-    }
+        return {state, addMessage, userId};
+    },
+    
 }
 </script>

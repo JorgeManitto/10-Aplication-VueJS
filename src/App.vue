@@ -17,20 +17,25 @@ export default {
   data() {
         return {
             isLoginOpen:false,
-            isLoggedIn:false,
-            authUser:{},
+            // isLoggedIn:false,
+            // authUser:{},
         }
     },
   mounted() {
       firebase.auth().onAuthStateChanged((user)=> {
         if (user) {
-          console.log(user);
-          this.isLoggedIn = true
-          this.authUser = user
+          // console.log(user);
+          this.$store.commit('setLoggedIn',true)
+          this.$store.commit('setauthUser', user)
+          console.log(user.uid);
+          // this.isLoggedIn = true
+          // this.authUser = user
         } else {
-        console.log('no auth');
-          this.isLoggedIn = false
-          this.authUser = {}
+        // console.log('no auth');
+        // this.isLoggedIn = false
+        // this.authUser = {}
+        this.$store.commit('setLoggedIn',false)
+        this.$store.commit('setauthUser', {})
       }
     });
   },

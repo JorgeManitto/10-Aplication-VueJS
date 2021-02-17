@@ -10,7 +10,7 @@
 <script>
 import firebase from '../utilities/firabase'
 export default {
-    props:{"isLoggedIn":{type:Boolean, required:false}},
+    // props:{"isLoggedIn":{type:Boolean, required:false}},
     data(){
         return {
             list : [
@@ -22,8 +22,13 @@ export default {
                 {title:"Calculator" ,to : "/Calculator"},
                 {title:"Modal" ,to : "/modal"},
                 {title:"Chat" ,to : "/chat"},
+                {title:"UserCrud" ,to : "/usercrud"},
             ],
-            
+        }
+    },
+    computed: {
+        isLoggedIn(){
+            return this.$store.state.isLoggedIn;
         }
     },
     methods: {
