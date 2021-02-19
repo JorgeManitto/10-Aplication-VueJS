@@ -22,10 +22,8 @@ import {reactive, ref} from 'vue';
 import axios from '../../plugins/axios';
 export default {
     components:{ modal },
-  
     setup(_,{emit}) {
         const isModalOpen = ref(false);
-
           const state = reactive({
                     form:{
                 name:"",
@@ -33,7 +31,6 @@ export default {
                 avatar:"",
             }
     })
-
         async  function submit(){
             const {data} = await axios.post('/users',state.form);
             emit('new-user-added',data);
@@ -42,10 +39,8 @@ export default {
             state.form.avatar = "";
             isModalOpen.value = false;
         }
-
         return {isModalOpen,submit,state}
     }
-    
 }
 </script>
 <style>
